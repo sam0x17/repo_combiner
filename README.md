@@ -1,6 +1,13 @@
-# repo_combiner
+# RepoCombiner
 
-TODO: Write a description here
+![example workflow](https://github.com/sam0x17/repo_combiner/actions/workflows/main.yml/badge.svg)
+
+RepoCombiner provides an easy CLI interface for combining multiple unrelated git histories (whether
+they originate from branches within the same repository, or entirely separate repositories) into
+one consolidated repository with a shared git history. This is extremely useful for taking advantage
+of analytics services such as GitHub Insights which are unable to perform any useful analysis on a
+multi-repo or whole-organization basis (ironically this is true even for GitHub Enterprise customers!).
+
 
 ## Installation
 
