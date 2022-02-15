@@ -1,0 +1,13 @@
+name: repo_combiner
+version: 0.1.0
+
+authors:
+  - Sam Johnson <sam@durosoft.com>
+
+targets:
+  repo_combiner:
+    main: src/repo_combiner.cr
+
+crystal: 1.3.2
+
+license: MIT
