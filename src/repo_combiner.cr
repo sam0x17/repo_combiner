@@ -1,4 +1,3 @@
-
 class RepoCombiner
   def initialize
     puts unique_dir
