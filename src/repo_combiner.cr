@@ -28,18 +28,6 @@ class RepoCombiner
     FileUtils.cd pwd if pwd
   end
 
-  def download_repo(url, dir = nil, branch = nil)
-    dir ||= unique_dir
-    FileUtils.mkdir_p(dir)
-    raise "dir cannot be found!" unless File.exists?(dir)
-    git_cmd "git clone '#{url}' '#{dir}'"
-    raise ".git directory cannot be found after cloning!" unless File.exists?("#{dir}/.git")
-    if branch
-      git_cmd "git checkout #{branch}"
-    end
-    dir
-  end
-
   private def vputs(msg)
     puts msg if @verbose
   end
