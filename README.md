@@ -20,6 +20,11 @@ dependencies:
 
 ## Usage
 
+The following will combine the assert.cr repo and the sepectator repo in an output directory called `output`:
+```
+./repo_combiner output https://github.com/sam0x17/assert.cr.git https://github.com/icy-arctic-fox/spectator.git
+```
+
 ## Development
 
 TODO: Write development instructions here
@@ -34,4 +39,4 @@ TODO: Write development instructions here
 
 ## Contributors
 
-- [Sam Johnson](https://github.com/your-github-user) - creator and maintainer
+- [Sam Johnson](https://github.com/sam0x17) - creator and maintainer
