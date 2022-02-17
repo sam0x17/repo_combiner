@@ -1,4 +1,5 @@
 require "file_utils"
+require "./cli"
 
 class RepoCombiner
   property target_dir : String
