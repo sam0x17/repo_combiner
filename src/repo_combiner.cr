@@ -7,8 +7,8 @@ class RepoCombiner
 
   VERSION = "0.1.0"
 
-  def initialize(@target_dir = nil)
-    @target_dir ||= unique_dir
+  def initialize(target_dir = nil)
+    @target_dir = target_dir ? target_dir.not_nil! : unique_dir
     @initial = true
     FileUtils.mkdir_p(@target_dir)
     git_cmd "git init #{@target_dir}"
@@ -25,7 +25,7 @@ class RepoCombiner
       git_cmd "git reset --hard #{remote}/#{branch}"
       @initial = false
     else
-      git_cmd "git rebase #{remote}/#{branch} -s recursive -X theirs"
+      git_cmd "git rebase #{remote}/#{branch} -X theirs --no-keep-empty"
     end
   ensure
     FileUtils.cd pwd if pwd

@@ -12,8 +12,9 @@ unless ENV["TEST_MODE"]?
     combiner = RepoCombiner.new(ARGV.first)
     combiner.verbose = false
     ARGV.last(ARGV.size - 1).each do |pair|
-      url, branch = pair.split("|")
-      branch ||= "master"
+      url = pair
+      branch = "master"
+      url, branch = pair.split("|") if pair.includes?("|")
       puts "adding #{url} : #{branch}..."
       combiner.add_repo(url, branch)
     end
