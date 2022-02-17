@@ -5,8 +5,10 @@ class RepoCombiner
   property target_dir : String
   property verbose : Bool = false
 
-  def initialize
-    @target_dir = unique_dir
+  VERSION = "0.1.0"
+
+  def initialize(@target_dir = nil)
+    @target_dir ||= unique_dir
     @initial = true
     FileUtils.mkdir_p(@target_dir)
     git_cmd "git init #{@target_dir}"
