@@ -11,11 +11,14 @@ multi-repo or whole-organization basis (ironically this is true even for GitHub 
 
 ## Installation
 
-TODO: Write installation instructions here
+Add the following to the dependencies section of your shard.yml file:
+```yaml
+dependencies:
+  repo_combiner:
+    github: sam0x17/repo_combiner
+```
 
 ## Usage
-
-TODO: Write usage instructions here
 
 ## Development
 
