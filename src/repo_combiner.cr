@@ -7,16 +7,18 @@ class RepoCombiner
     @target_dir = unique_dir
   end
 
-  def download_repo(url, target_dir, branch = nil)
-    raise "target_dir cannot be found!" unless File.exists?(target_dir)
+  def download_repo(url, dir = nil, branch = nil)
+    dir ||= unique_dir
+    FileUtils.mkdir_p(dir)
+    raise "dir cannot be found!" unless File.exists?(dir)
     puts "Cloning into #{url}..."
-    FileUtils.mkdir_p(target_dir)
-    puts `git clone '#{url}' '#{target_dir}'`
-    raise ".git directory cannot be found after cloning!" unless File.exists?("#{target_dir}/.git")
+    puts `git clone '#{url}' '#{dir}'`
+    raise ".git directory cannot be found after cloning!" unless File.exists?("#{dir}/.git")
     if branch
       puts "Checking out into #{branch} branch..."
       puts `git checkout #{branch}`
     end
+    dir
   end
 
   private def unique_dir
@@ -26,5 +28,3 @@ class RepoCombiner
     end
   end
 end
-
-combiner = RepoCombiner.new
