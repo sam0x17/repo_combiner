@@ -3,7 +3,7 @@ require "./cli"
 
 class RepoCombiner
   property target_dir : String
-  property verbose : Bool = false
+  property verbose : Bool = true
 
   VERSION = "0.1.0"
 
@@ -23,9 +23,12 @@ class RepoCombiner
     git_cmd "git fetch #{remote}"
     if @initial
       git_cmd "git reset --hard #{remote}/#{branch}"
+      File.write(".gitattributes", "* merge=union")
+      git_cmd "git add --all", false
+      git_cmd "git commit -m initial", false
       @initial = false
     else
-      git_cmd "git rebase #{remote}/#{branch} -X theirs --no-keep-empty"
+      git_cmd "git rebase #{remote}/#{branch} -X ours --keep-empty"
     end
   ensure
     FileUtils.cd pwd if pwd
