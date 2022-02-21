@@ -13,12 +13,11 @@ class RepoCombiner
     pwd = FileUtils.pwd
     FileUtils.mkdir_p(@target_dir)
     FileUtils.cd @target_dir
-    git_cmd "git init #{@target_dir}"
+    git_cmd "git init"
     git_cmd "git add --all", false
     git_cmd "git commit --allow-empty -m 'initial commit'", false
-    git_cmd "pwd", false
     git_cmd "git status", false
-    raise "could not initialize git repo" unless File.exists?("#{@target_dir}/.git")
+    raise "could not initialize git repo" unless File.exists?(".git")
   ensure
     FileUtils.cd pwd if pwd
   end
@@ -26,7 +25,7 @@ class RepoCombiner
   def add_repo(url, branch = "master", subdir = unique_subdir("."))
     pwd = FileUtils.pwd
     FileUtils.cd @target_dir.not_nil!
-    git_cmd "git subtree add --prefix #{subdir} '#{url}' #{branch}"
+    git_cmd "git subtree add --prefix #{subdir} '#{url}' #{branch}", false
     subdir
   ensure
     FileUtils.cd pwd if pwd
