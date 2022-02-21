@@ -10,26 +10,24 @@ class RepoCombiner
   def initialize(target_dir = nil)
     @target_dir = target_dir ? target_dir.not_nil! : unique_dir
     @initial = true
+    pwd = FileUtils.pwd
     FileUtils.mkdir_p(@target_dir)
+    FileUtils.cd @target_dir
     git_cmd "git init #{@target_dir}"
+    git_cmd "git add --all", false
+    git_cmd "git commit --allow-empty -m 'initial commit'", false
+    git_cmd "pwd", false
+    git_cmd "git status", false
     raise "could not initialize git repo" unless File.exists?("#{@target_dir}/.git")
+  ensure
+    FileUtils.cd pwd if pwd
   end
 
-  def add_repo(url, branch = "master")
+  def add_repo(url, branch = "master", subdir = unique_subdir("."))
     pwd = FileUtils.pwd
     FileUtils.cd @target_dir.not_nil!
-    remote = "rem-#{Random::Secure.hex(5)}"
-    git_cmd "git remote add #{remote} #{url}", false
-    git_cmd "git fetch #{remote}"
-    if @initial
-      git_cmd "git reset --hard #{remote}/#{branch}"
-      File.write(".gitattributes", "* merge=union")
-      git_cmd "git add --all", false
-      git_cmd "git commit -m initial", false
-      @initial = false
-    else
-      git_cmd "git rebase #{remote}/#{branch} -X ours --keep-empty"
-    end
+    git_cmd "git subtree add --prefix #{subdir} '#{url}' #{branch}"
+    subdir
   ensure
     FileUtils.cd pwd if pwd
   end
@@ -44,8 +42,13 @@ class RepoCombiner
   end
 
   private def unique_dir
+    unique_subdir("/tmp")
+  end
+
+  private def unique_subdir(dir)
     loop do
-      dest_dir = "/tmp/#{Random::Secure.hex(8)}"
+      dest_dir = "#{dir}/#{Random::Secure.hex(5)}"
+      dest_dir = dest_dir[2..] if dest_dir.starts_with?("./")
       return dest_dir unless File.exists?(dest_dir)
     end
   end

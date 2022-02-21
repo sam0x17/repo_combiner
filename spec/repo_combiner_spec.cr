@@ -9,10 +9,10 @@ describe RepoCombiner do
 
   it "can combine conflicting repos" do
     combiner = RepoCombiner.new
-    combiner.add_repo("https://github.com/sam0x17/repo_combiner.git", "main")
-    combiner.add_repo("https://github.com/sam0x17/assert.cr.git", "master")
-    File.exists?("#{combiner.target_dir}/src/assert.cr").should eq true
-    File.exists?("#{combiner.target_dir}/src/repo_combiner.cr").should eq true
+    sub1 = combiner.add_repo("https://github.com/sam0x17/repo_combiner.git", "main")
+    sub2 = combiner.add_repo("https://github.com/sam0x17/assert.cr.git", "master")
+    File.exists?("#{combiner.target_dir}/#{sub2}/src/assert.cr").should eq true
+    File.exists?("#{combiner.target_dir}/#{sub1}/src/repo_combiner.cr").should eq true
     FileUtils.rm_rf(combiner.target_dir)
   end
 end
