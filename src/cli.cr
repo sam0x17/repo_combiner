@@ -9,7 +9,8 @@ unless ENV["TEST_MODE"]?
     puts ""
   else
     raise "target_dir should not end in .git!" if ARGV.first.downcase.ends_with?(".git")
-    combiner = RepoCombiner.new(ARGV.first)
+    github_token = ENV["GH_TOKEN"]?
+    combiner = RepoCombiner.new(ARGV.first, github_token)
     combiner.verbose = true
     ARGV.last(ARGV.size - 1).each do |pair|
       url = pair

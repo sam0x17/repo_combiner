@@ -4,10 +4,11 @@ require "./cli"
 class RepoCombiner
   property target_dir : String
   property verbose : Bool = true
+  property github_token : String?
 
   VERSION = "0.1.0"
 
-  def initialize(target_dir = nil)
+  def initialize(target_dir = nil, @github_token = nil)
     @target_dir = target_dir ? target_dir.not_nil! : unique_dir
     @initial = true
     pwd = FileUtils.pwd
@@ -25,6 +26,7 @@ class RepoCombiner
   def add_repo(url, branch = "master", subdir = unique_subdir("."))
     pwd = FileUtils.pwd
     FileUtils.cd @target_dir.not_nil!
+    url = url.gsub("git@github.com", "#{@github_token}@github.com") if @github_token
     git_cmd "git subtree add --prefix #{subdir} '#{url}' #{branch}", false
     subdir
   ensure
