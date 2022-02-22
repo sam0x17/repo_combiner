@@ -10,7 +10,7 @@ unless ENV["TEST_MODE"]?
   else
     raise "target_dir should not end in .git!" if ARGV.first.downcase.ends_with?(".git")
     combiner = RepoCombiner.new(ARGV.first)
-    combiner.verbose = false
+    combiner.verbose = true
     ARGV.last(ARGV.size - 1).each do |pair|
       url = pair
       branch = "master"
