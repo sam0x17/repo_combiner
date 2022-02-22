@@ -11,6 +11,10 @@ jobs:
         uses: actions/checkout@v2
       - name: Install Crystal
         uses: crystal-lang/install-crystal@v1
+      - name: Set Git Preferences
+        run: |
+          git config --global user.name 'Spec Runner'
+          git config --global user.email 'git@github.com'
       - name: Run tests
         run: crystal spec
   format:
