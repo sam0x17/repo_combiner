@@ -26,7 +26,7 @@ class RepoCombiner
   def add_repo(url, branch = "master", subdir = unique_subdir("."))
     pwd = FileUtils.pwd
     FileUtils.cd @target_dir.not_nil!
-    url = url.gsub("git@github.com", "#{@github_token}@github.com") if @github_token
+    url = url.gsub("https://github.com", "https://#{@github_token}@github.com") if @github_token
     git_cmd "git subtree add --prefix #{subdir} '#{url}' #{branch}", false
     subdir
   ensure
