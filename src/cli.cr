@@ -15,7 +15,11 @@ unless ENV["TEST_MODE"]?
     ARGV.last(ARGV.size - 1).each do |pair|
       url = pair
       branch = "master"
-      url, branch = pair.split("|") if pair.includes?("|")
+      if pair.includes?("|")
+        pair = pair.split("|")
+        url = pair[0]
+        branch = pair[1]
+      end
       puts "adding #{url} : #{branch}..."
       combiner.add_repo(url, branch)
     end
